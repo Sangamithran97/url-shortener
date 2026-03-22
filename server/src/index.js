@@ -2,6 +2,8 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import authRoutes from './routes/authRoutes.js'
+import urlRoutes from './routes/urlRoutes.js'
+import analyticsRoutes from './routes/analyticsRoutes.js'
 
 dotenv.config()
 
@@ -16,6 +18,14 @@ app.use(cors({
 app.use(express.json())
 
 app.use('/api/auth', authRoutes)
+app.use('/api/urls', urlRoutes)
+app.use('/api/analytics', analyticsRoutes)
+
+// Redirect route (this handles the short URL clicks)
+app.get('/:shortCode', async (req, res) => {
+  const { redirectUrl } = await import('./controllers/urlController.js')
+  redirectUrl(req, res)
+})
 
 // Test route
 app.get('/', (req, res) => {
