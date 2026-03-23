@@ -81,24 +81,21 @@ The application is split into:
 ## Architecture Diagram
 
 ```mermaid
-flowchart LR
-  U[User Browser] -->|Register/Login| C[React Client (Vercel)]
-  C -->|POST /api/auth/*| S[Express Server (Render)]
-  C -->|JWT Authorization| S
-  
-  C -->|POST /api/urls| S
-  S --> P[Prisma ORM]
-  P --> D[(Neon Postgres)]
-  
-  U -->|GET /:shortCode| S
-  S -->|lookup shortCode| P
-  P --> D
-  S -->|record Analytics + increment clickCount| P
-  
-  C -->|GET /api/urls + /api/analytics| S
-  S --> P
-  P --> D
-  S --> C
+flowchart TD
+  U[User Browser]
+  FE[Frontend: React + Vite on Vercel]
+  BE[Backend: Express API on Render]
+  PR[Prisma ORM]
+  DB[(Neon Postgres)]
+
+  U --> FE
+  FE -->|Auth and CRUD API calls| BE
+  BE --> PR
+  PR --> DB
+
+  U -->|Open short link /:shortCode| BE
+  BE -->|Resolve shortCode and redirect| U
+  BE -->|Write analytics and increment clicks| DB
 ```
 
 ## Repository Layout
@@ -186,8 +183,8 @@ flowchart LR
 - Analytics page displays recent visits and chart data.
 
 ## Video / Demo Link (Required)
-Replace the placeholder below with your Loom/YouTube link:
-- Loom/YouTube URL: `PASTE_YOUR_VIDEO_LINK_HERE`
+Recorded demo video:
+- Loom/YouTube URL: [URL Shortener Demo Video](https://drive.google.com/file/d/1aTRN6AeCSqfHhMcra6dQ8ENbh2_inKPR/view?usp=sharing)
 
 ### Video Demo Structure (suggested)
 1. Show registration/login flow.
@@ -246,12 +243,18 @@ Example: clicking `https://<render-host>/<shortCode>` results in a 302 redirect 
 }
 ```
 
-### Images to include (add your own screenshots)
-Add screenshots from your video (examples):
-- Screenshot: frontend Register success
-- Screenshot: dashboard showing created `shortUrl`
-- Screenshot: network/redirect showing 302 -> long URL
-- Screenshot: Neon table query showing new rows in `User/Url/Analytics`
+### Screenshots
+Below are the screenshots captured from the working application flow:
+
+![Login Page](../.cursor/projects/c-Users-sanga-urls/assets/c__Users_sanga_AppData_Roaming_Cursor_User_workspaceStorage_7e8d5eb6e37b5c9429006c1daeb043af_images_Screenshot_2026-03-23_215023-4478cc1d-21d0-4eaa-acc7-47f142926480.png)
+
+![Dashboard With New URL](../.cursor/projects/c-Users-sanga-urls/assets/c__Users_sanga_AppData_Roaming_Cursor_User_workspaceStorage_7e8d5eb6e37b5c9429006c1daeb043af_images_Screenshot_2026-03-23_215338-55967fb1-e0fa-47ce-a46b-c1b576e7af13.png)
+
+![Analytics Before Clicks](../.cursor/projects/c-Users-sanga-urls/assets/c__Users_sanga_AppData_Roaming_Cursor_User_workspaceStorage_7e8d5eb6e37b5c9429006c1daeb043af_images_Screenshot_2026-03-23_215403-102d28c7-ccab-4556-881c-ec08d32c00b2.png)
+
+![Analytics With Click Data](../.cursor/projects/c-Users-sanga-urls/assets/c__Users_sanga_AppData_Roaming_Cursor_User_workspaceStorage_7e8d5eb6e37b5c9429006c1daeb043af_images_Screenshot_2026-03-23_215506-8778655e-51cf-42b3-8d5a-2c7856574c1e.png)
+
+![Dashboard Empty State](../.cursor/projects/c-Users-sanga-urls/assets/c__Users_sanga_AppData_Roaming_Cursor_User_workspaceStorage_7e8d5eb6e37b5c9429006c1daeb043af_images_Screenshot_2026-03-23_215313-9cb8535c-653a-43aa-ad3f-5212c37ec2bb.png)
 
 ---
 This project is a part of a hackathon run by https://katomaran.com
