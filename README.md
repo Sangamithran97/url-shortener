@@ -244,17 +244,16 @@ Example: clicking `https://<render-host>/<shortCode>` results in a 302 redirect 
 ```
 
 ### Screenshots
-Below are the screenshots captured from the working application flow:
+Screenshots captured from the working application flow are available here:
 
-![Login Page](../.cursor/projects/c-Users-sanga-urls/assets/c__Users_sanga_AppData_Roaming_Cursor_User_workspaceStorage_7e8d5eb6e37b5c9429006c1daeb043af_images_Screenshot_2026-03-23_215023-4478cc1d-21d0-4eaa-acc7-47f142926480.png)
+- [Screenshots folder (Google Drive)](https://drive.google.com/drive/folders/1jmoR2GfIDzR2xDcQXyXNkZKabQaDCS1D?usp=drive_link)
 
-![Dashboard With New URL](../.cursor/projects/c-Users-sanga-urls/assets/c__Users_sanga_AppData_Roaming_Cursor_User_workspaceStorage_7e8d5eb6e37b5c9429006c1daeb043af_images_Screenshot_2026-03-23_215338-55967fb1-e0fa-47ce-a46b-c1b576e7af13.png)
-
-![Analytics Before Clicks](../.cursor/projects/c-Users-sanga-urls/assets/c__Users_sanga_AppData_Roaming_Cursor_User_workspaceStorage_7e8d5eb6e37b5c9429006c1daeb043af_images_Screenshot_2026-03-23_215403-102d28c7-ccab-4556-881c-ec08d32c00b2.png)
-
-![Analytics With Click Data](../.cursor/projects/c-Users-sanga-urls/assets/c__Users_sanga_AppData_Roaming_Cursor_User_workspaceStorage_7e8d5eb6e37b5c9429006c1daeb043af_images_Screenshot_2026-03-23_215506-8778655e-51cf-42b3-8d5a-2c7856574c1e.png)
-
-![Dashboard Empty State](../.cursor/projects/c-Users-sanga-urls/assets/c__Users_sanga_AppData_Roaming_Cursor_User_workspaceStorage_7e8d5eb6e37b5c9429006c1daeb043af_images_Screenshot_2026-03-23_215313-9cb8535c-653a-43aa-ad3f-5212c37ec2bb.png)
+Included screenshots:
+- Login Page
+- Dashboard with created short URL
+- Analytics page (before clicks)
+- Analytics page (after clicks / chart visible)
+- Dashboard empty state
 
 ---
 This project is a part of a hackathon run by https://katomaran.com
