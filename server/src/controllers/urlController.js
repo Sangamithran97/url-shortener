@@ -1,6 +1,23 @@
 import prisma from '../utils/prisma.js'
 import { nanoid } from 'nanoid'
 
+const getRedirectBaseUrl = (req) => {
+  // Redirects are served from the API server root (see `app.get('/:shortCode')` in `server/src/index.js`).
+  // This must NOT include `/api`.
+  //
+  // Prefer deriving the public origin from headers (works in Render/Vercel proxies),
+  // and fall back to environment variables for local/dev.
+  if (req?.headers?.host) {
+    const proto =
+      req.headers['x-forwarded-proto']?.toString().split(',')[0]?.trim() ||
+      (req.secure ? 'https' : 'http')
+    const host = req.headers['x-forwarded-host']?.toString().split(',')[0]?.trim() || req.headers.host
+    return `${proto}://${host}`
+  }
+
+  return process.env.REDIRECT_BASE_URL || process.env.BASE_URL || 'http://localhost:5000'
+}
+
 // Create short URL
 export const createUrl = async (req, res) => {
   try {
@@ -43,7 +60,7 @@ export const createUrl = async (req, res) => {
         id: url.id,
         longUrl: url.longUrl,
         shortCode: url.shortCode,
-        shortUrl: `${process.env.BASE_URL}/${url.shortCode}`,
+        shortUrl: `${getRedirectBaseUrl(req)}/${url.shortCode}`,
         clickCount: url.clickCount,
         createdAt: url.createdAt,
         expiresAt: url.expiresAt
@@ -63,10 +80,10 @@ export const getUserUrls = async (req, res) => {
       orderBy: { createdAt: 'desc' }
     })
 
-    const frontendBase = process.env.FRONTEND_URL || 'https://url-short-webapp.vercel.app';
+    const redirectBase = getRedirectBaseUrl(req)
     const urlsWithShortUrl = urls.map(url => ({
       ...url,
-      shortUrl: `${frontendBase}/${url.shortCode}`
+      shortUrl: `${redirectBase}/${url.shortCode}`
     }))
 
     res.json({ urls: urlsWithShortUrl })
