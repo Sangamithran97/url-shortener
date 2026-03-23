@@ -1,5 +1,20 @@
 import prisma from '../utils/prisma.js'
 
+const getRedirectBaseUrl = (req) => {
+  // Redirects are served from the API server root (see `app.get('/:shortCode')` in `src/index.js`).
+  // This must not include `/api`.
+  if (req?.headers?.host) {
+    const proto =
+      req.headers['x-forwarded-proto']?.toString().split(',')[0]?.trim() ||
+      (req.secure ? 'https' : 'http')
+    const host =
+      req.headers['x-forwarded-host']?.toString().split(',')[0]?.trim() || req.headers.host
+    return `${proto}://${host}`
+  }
+
+  return process.env.REDIRECT_BASE_URL || process.env.BASE_URL || 'http://localhost:5000'
+}
+
 export const getUrlAnalytics = async (req, res) => {
   try {
     const { id } = req.params
@@ -48,7 +63,7 @@ export const getUrlAnalytics = async (req, res) => {
         id: url.id,
         longUrl: url.longUrl,
         shortCode: url.shortCode,
-        shortUrl: `${process.env.BASE_URL}/${url.shortCode}`,
+        shortUrl: `${getRedirectBaseUrl(req)}/${url.shortCode}`,
         clickCount: url.clickCount,
         createdAt: url.createdAt,
         expiresAt: url.expiresAt
