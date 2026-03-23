@@ -63,9 +63,10 @@ export const getUserUrls = async (req, res) => {
       orderBy: { createdAt: 'desc' }
     })
 
+    const frontendBase = process.env.FRONTEND_URL || 'https://url-short-webapp.vercel.app';
     const urlsWithShortUrl = urls.map(url => ({
       ...url,
-      shortUrl: `${process.env.BASE_URL}/${url.shortCode}`
+      shortUrl: `${frontendBase}/${url.shortCode}`
     }))
 
     res.json({ urls: urlsWithShortUrl })
