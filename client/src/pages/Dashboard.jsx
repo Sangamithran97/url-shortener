@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { createUrl, getUserUrls, deleteUrl } from '../api/urls'
 import { useAuth } from '../context/AuthContext'
-import QRCode from 'react-qr-code'
 
 export default function Dashboard() {
   const { user, logout } = useAuth()
@@ -13,7 +12,6 @@ export default function Dashboard() {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [copied, setCopied] = useState('')
-  const [showQR, setShowQR] = useState('')
 
   useEffect(() => {
     fetchUrls()
@@ -165,12 +163,6 @@ export default function Dashboard() {
                         {copied === url.id ? 'Copied!' : 'Copy'}
                       </button>
                       <button
-                        onClick={() => setShowQR(showQR === url.id ? '' : url.id)}
-                        className="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-1 rounded-lg transition"
-                      >
-                        QR
-                      </button>
-                      <button
                         onClick={() => navigate(`/analytics/${url.id}`)}
                         className="text-xs bg-green-50 hover:bg-green-100 text-green-600 px-3 py-1 rounded-lg transition"
                       >
@@ -184,12 +176,6 @@ export default function Dashboard() {
                       </button>
                     </div>
                   </div>
-
-                  {showQR === url.id && (
-                    <div className="mt-4 flex justify-center">
-                      <QRCode value={url.shortUrl} size={128} />
-                    </div>
-                  )}
                 </div>
               ))}
             </div>
