@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 
 const protect = (req, res, next) =>{
     try{
-        const token= req.header.authorization?.split(' ')[1]
+        const token= req.headers['authorization']?.split(' ')[1]?.trim()
 
         if(!token){
             return res.status(401).json({message: 'No token, access denied '})
